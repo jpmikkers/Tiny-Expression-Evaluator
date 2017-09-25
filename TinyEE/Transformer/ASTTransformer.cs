@@ -189,12 +189,42 @@ namespace TinyEE
             //chain from left to right
             //2 + 3 + 4 is calculated as (2+3)+4, 15%12%5 as (15%12)%5
             Debug.Assert(nodes.Count >= 3 && nodes.Count % 2 == 1);
-            return start == 0
-                       ? nodes[start].GetAST(context)
-                       : Expression.Dynamic(DLRUtil.GetBinaryBinder(nodes[start - 1].Token.Type),
-                                            typeof(object),
-                                            GetBinaryAST(nodes, start - 2, context),
-                                            nodes[start].GetAST(context));
+
+            Expression result;
+
+            if (start == 0)
+            {
+                result = nodes[start].GetAST(context);
+            }
+            else
+            {
+                var tokenType = nodes[start - 1].Token.Type;
+                var left = GetBinaryAST(nodes, start - 2, context);
+                var right = nodes[start].GetAST(context);
+
+                if (tokenType == TokenType.AND)
+                {
+                    result = Expression.AndAlso(
+                                Expression.Convert(left, typeof(bool)),
+                                Expression.Convert(right, typeof(bool)));
+                }
+                else if (tokenType == TokenType.OR)
+                {
+                    result = Expression.OrElse(
+                                Expression.Convert(left, typeof(bool)),
+                                Expression.Convert(right, typeof(bool)));
+                }
+                else
+                {
+                    result = Expression.Dynamic(
+                                DLRUtil.GetBinaryBinder(tokenType),
+                                typeof(object),
+                                left,
+                                right);
+                }
+            }
+
+            return result;
         }
 
         private static Expression GetCompareAST(IList<ParseNode> nodes, int start, Expression context, Expression chain = null)
