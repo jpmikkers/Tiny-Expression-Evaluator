@@ -47,16 +47,14 @@ namespace TinyEE.Test
         }
 
         [Test]
-        [ExpectedException(typeof(KeyNotFoundException))]
         public void ShouldFailWithKeyNotFoundExceptionWhenVariableNotFound()
         {
-            var result = TEE.Evaluate<object>("a+b");
-            Assert.Fail("Result:" + result);
+            Assert.Throws< KeyNotFoundException> (() => TEE.Evaluate<object>("a+b"));
         }
 
-        [Test]
-        public void Invalid(string expression)
-        {
-        }
+        //[Test]
+        //public void Invalid(string expression)
+        //{
+        //}
     }
 }

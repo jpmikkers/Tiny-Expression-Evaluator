@@ -1,6 +1,7 @@
 using System;
 using System.Numerics;
 using NUnit.Framework;
+using Microsoft.CSharp.RuntimeBinder;
 
 namespace TinyEE.Test
 {
@@ -76,11 +77,10 @@ namespace TinyEE.Test
         }
 
         [Test]
-        [ExpectedException]
         [TestCase("BIGINT(true)")]
         public void Invalid(string expression)
         {
-            TEE.Evaluate<object>(expression);
+            Assert.Throws<RuntimeBinderException>(() => TEE.Evaluate<object>(expression));
         }
     }
 }

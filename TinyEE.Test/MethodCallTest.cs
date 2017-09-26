@@ -25,9 +25,9 @@ namespace TinyEE.Test
             Assert.AreEqual(expected, TEE.Evaluate<object>(expression, new Dictionary<string,object>{ {"$str",strFuncs}, {"$math",mathFuncs}, {"$list",listFuncs} }));
         }
 
-        [Test]
-        public void Invalid(string expression)
-        {
-        }
+        //[Test]
+        //public void Invalid(string expression)
+        //{
+        //}
     }
 }

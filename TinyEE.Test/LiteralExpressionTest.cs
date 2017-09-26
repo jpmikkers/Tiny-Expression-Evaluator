@@ -105,20 +105,18 @@ namespace TinyEE.Test
         }
 
         [Test]
-        [ExpectedException(typeof(OverflowException))]
         [TestCase("-2147483649")]
         [TestCase("2147483648")]
         [TestCase("2147483647 + 1")]
         [TestCase("-2147483648 - 1")]
         public void IntLiteralOverflow(string expr)
         {
-            var result = TEE.Evaluate<object>(expr);
-            Assert.Fail("Result:" + result);
+            Assert.Throws<OverflowException>(() => TEE.Evaluate<object>(expr));
         }
 
-        [Test]
-        public void Invalid(string expression)
-        {
-        }
+        //[Test]
+        //public void Invalid(string expression)
+        //{
+        //}
     }
 }

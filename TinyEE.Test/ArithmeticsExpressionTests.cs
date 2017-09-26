@@ -1,4 +1,6 @@
+using Microsoft.CSharp.RuntimeBinder;
 using NUnit.Framework;
+using System;
 
 namespace TinyEE.Test
 {
@@ -43,14 +45,19 @@ namespace TinyEE.Test
         }
 
         [Test]
-        [ExpectedException]
         [TestCase(@"""Hello "" - 1")]
         [TestCase(@"""Hello "" * 1")]
         [TestCase(@"""Hello "" / 1")]
-        [TestCase("1 / 0")]
         public void Invalid(string expression)
         {
-            TEE.Evaluate<object>(expression);
+            Assert.Throws<RuntimeBinderException>(() => TEE.Evaluate<object>(expression));
+        }
+
+        [Test]
+        [TestCase("1 / 0")]
+        public void DivideByZero(string expression)
+        {
+            Assert.Throws<DivideByZeroException>(() => TEE.Evaluate<object>(expression));
         }
     }
 }

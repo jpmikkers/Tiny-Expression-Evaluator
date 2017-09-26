@@ -28,10 +28,10 @@ namespace TinyEE.Test
             Assert.AreEqual(expected, result);
         }
 
-        [Test]
-        public void Invalid(string expression)
-        {
-        }
+        //[Test]
+        //public void Invalid(string expression)
+        //{
+        //}
 
         public static Dictionary<string,object> GetTestObject()
         {

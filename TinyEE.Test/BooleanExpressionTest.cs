@@ -24,9 +24,9 @@ namespace TinyEE.Test
             Assert.AreEqual(result, TEE.Evaluate<bool>(expression));
         }
 
-        [Test]
-        public void Invalid(string expression)
-        {
-        }
+        //[Test]
+        //public void Invalid(string expression)
+        //{
+        //}
     }
 }

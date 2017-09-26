@@ -28,12 +28,11 @@ namespace TinyEE.Test
         }
 
         [Test]
-        [ExpectedException(typeof(FormatException))]
         [TestCase("1a")]
         [TestCase("1 +* 2")]
         public void ParsingInvalidExpressionWillThrowFormatException(string expression)
         {
-            TEE.Parse<object>(expression);
+            Assert.Throws< FormatException>(() =>TEE.Parse<object>(expression));
         }
 
         [Test]
