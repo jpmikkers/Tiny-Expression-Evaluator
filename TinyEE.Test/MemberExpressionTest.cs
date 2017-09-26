@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using NUnit.Framework;
+using System.Globalization;
+using System.Threading;
 
 namespace TinyEE.Test
 {
@@ -20,9 +22,11 @@ namespace TinyEE.Test
         [TestCase(@"table01A.Rows[0][""col1""]", "one")]
         [TestCase(@"table01A.Rows[0][""col1""].ToUpper()", "ONE")]
         [TestCase(@"table01A.Rows[0][""col1""].ToUpper().ToLower().Substring(1,2)", "ne")]
-        [TestCase(@"table01A.Rows[3][""col3""]", "12/12/2012 12:12:12 PM")]
+        [TestCase(@"table01A.Rows[3][""col3""]", "12/12/2012 12:12:12")]
         public void Valid(string expression, object expected)
         {
+            Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
+
             var vars = GetTestObject();
             var result = TEE.Evaluate<object>(expression, vars);
             Assert.AreEqual(expected, result);

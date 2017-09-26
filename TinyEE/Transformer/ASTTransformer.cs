@@ -242,12 +242,9 @@ namespace TinyEE
                                               typeof(object),
                                               nodes[start - 2].GetAST(context),
                                               nodes[start].GetAST(context));
-                chain = chain != null
-                            ? Expression.Dynamic(DLRUtil.GetBinaryBinder(TokenType.AND),
-                                                 typeof(object),
-                                                 link,
-                                                 chain)
-                            : link;
+                chain = chain != null ? (Expression)Expression.AndAlso( 
+                    Expression.Convert( link, typeof(bool)), 
+                    Expression.Convert( chain, typeof(bool))) : link;
                 result = GetCompareAST(nodes, start - 2, context, chain);
             }
             return result;
